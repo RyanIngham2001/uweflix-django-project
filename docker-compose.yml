@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  web:
+    container_name: web
+    build: ./uwe-flix
+    command: bash -c "python /uwe-flix/manage.py makemigrations && python /uwe-flix/manage.py migrate && python /uwe-flix/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+
+  stripe:
+    container_name: stripe
+    build: ./stripe-service
+    command: python /stripe-service/manage.py runserver 0.0.0.0:8001
+    volumes:
+      - .:/code
+    ports:
+      - 8001:8001
+
+  db:
+    container_name: db
+    build: ./database
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:

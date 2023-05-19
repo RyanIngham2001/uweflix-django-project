@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-body text-center">
+          <h3 class="card-title mb-4">No Access</h3>
+          <p class="card-text">
+            Sorry, you do not have access to view this page.
+          </p>
+          <a href="{% url 'index' %}" class="btn btn-primary mt-4"
+            >Back to Home</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

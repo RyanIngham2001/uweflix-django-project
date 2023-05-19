@@ -1,0 +1,227 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-4">
+  <h1>Manage Clubs</h1>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#current-clubs"
+        >Current Clubs</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#inactive-clubs"
+        >Inactive Clubs</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#club-discount-requests"
+        >Club Discount Requests</a
+      >
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div id="current-clubs" class="tab-pane active">
+      <br />
+      <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+            <th>Club Name</th>
+            <th>Account Number</th>
+            <th>Account Balance</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if clubs %} {% for club in clubs %}
+          <tr>
+            <td>{{ club.name }}</td>
+            <td>{{ club.account.id }}</td>
+            <td>{{ club.account.balance }}</td>
+            <td>
+              <div class="dropdown">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Actions
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'update_representative' pk=club.pk %}"
+                    >Update Representative</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'view_club' pk=club.pk %}"
+                    >View Club</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'update_club' pk=club.pk %}"
+                    >Update Club</a
+                  >
+                  {% if perms == '3' or perms == '4' %}
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'delete_club' pk=club.pk %}"
+                    >Delete Club</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'activate_club' pk=club.pk %}"
+                    >Activate Club</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'deactivate_club' pk=club.pk %}"
+                    >Deactivate Club</a
+                  >
+                  {% endif %} {% if not club.account %}
+                  <a class="dropdown-item" href="{% url 'create_account' %}"
+                    >Create Account</a
+                  >
+                  {% endif %}
+                </div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %} {% else %}
+          <tr>
+            <td colspan="4">No clubs to display.</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+      <a class="btn btn-primary" href="{% url 'create_club' %}">
+        Create Club
+      </a>
+    </div>
+    <div id="inactive-clubs" class="tab-pane fade">
+      <br />
+      <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+            <th>Club Name</th>
+            <th>Account Number</th>
+            <th>Account Balance</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if inactive_clubs %} {% for club in inactive_clubs %}
+          <tr>
+            <td>{{ club.name }}</td>
+            <td>{{ club.account.id }}</td>
+            <td>{{ club.account.balance }}</td>
+            <td>
+              <div class="dropdown">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Actions
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'activate_club' pk=club.pk %}"
+                  >
+                    Activate Club
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'view_club' pk=club.pk %}"
+                  >
+                    View Club
+                  </a>
+                  {% if perms == '3' or perms == '4' %}
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'deactivate_club' pk=club.pk %}"
+                  >
+                    Deactivate Club
+                  </a>
+                  {% endif %}
+                </div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %} {% else %}
+          <tr>
+            <td colspan="4">No inactive clubs to display.</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <div id="club-discount-requests" class="tab-pane fade">
+      <br />
+      <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+            <th>Club Name</th>
+            <th>Old Rate</th>
+            <th>Requested Rate</th>
+            <th>Reason</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if discount_requests %} {% for request in discount_requests %}
+          <tr>
+            <td>{{ request.club.name }}</td>
+            <td>{{ request.old_discount_rate }}</td>
+            <td>{{ request.new_discount_rate }}</td>
+            <td>{{ request.reason }}</td>
+            <td>
+              <div class="dropdown">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Actions
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'approve_club_discount_request' pk=request.pk %}"
+                    >Approve</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'deny_club_discount_request' pk=request.pk %}"
+                    >Deny</a
+                  >
+                </div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %} {% else %}
+          <tr>
+            <td colspan="5">No requests to display.</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

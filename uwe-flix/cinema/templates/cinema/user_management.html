@@ -1,0 +1,140 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-4">
+  <h1>User and Discount Request Management</h1>
+
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a
+        class="nav-link active"
+        id="user-tab"
+        data-toggle="tab"
+        href="#user"
+        role="tab"
+        aria-controls="user"
+        aria-selected="true"
+        >User Management</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        id="discount-request-tab"
+        data-toggle="tab"
+        href="#discount-request"
+        role="tab"
+        aria-controls="discount-request"
+        aria-selected="false"
+        >Student Discount Requests</a
+      >
+    </li>
+  </ul>
+
+  <div class="tab-content" id="myTabContent">
+    <div
+      class="tab-pane fade show active"
+      id="user"
+      role="tabpanel"
+      aria-labelledby="user-tab"
+    >
+      <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Account Active</th>
+            <th>Groups</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.is_active }}</td>
+            <td>
+              {% for group in user.groups.all %} {{ group.name }}
+              <a
+                href="{% url 'remove_user_from_group' pk=user.pk group=group.pk %}"
+                class="btn btn-sm btn-danger ml-1"
+                >Remove</a
+              ><br />
+              {% endfor %}
+            </td>
+            <td>
+              {% if not user.is_active %}
+              <a
+                href="{% url 'enable_user' pk=user.pk %}"
+                class="btn btn-primary"
+                >Enable</a
+              >
+              {% endif %} {% if user.is_active %}
+              <a
+                href="{% url 'disable_user' pk=user.pk %}"
+                class="btn btn-danger"
+                >Disable</a
+              >
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div
+      class="tab-pane fade"
+      id="discount-request"
+      role="tabpanel"
+      aria-labelledby="discount-request-tab"
+    >
+      <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Old Discount Rate</th>
+            <th>New Discount Rate</th>
+            <th>Reason</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for request in discount_requests %}
+          <tr>
+            <td>{{ request.student.username }}</td>
+            <td>{{ request.old_discount_rate }}</td>
+            <td>{{ request.new_discount_rate }}</td>
+            <td>{{ request.reason }}</td>
+            <td>
+              <div class="dropdown">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Actions
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'approve_student_discount_request' pk=request.pk %}"
+                    >Approve</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'deny_student_discount_request' pk=request.pk %}"
+                    >Deny</a
+                  >
+                </div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

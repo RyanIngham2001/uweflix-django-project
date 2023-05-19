@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-4">
+  <h1>View Bookings</h1>
+</div>
+
+
+<table class="table table-striped">
+  <thead>
+      <tr>
+          <th scope="col">Movie Title</th>
+          <th scope="col">Start Time</th>
+          <th scope="col">End Time</th>
+          <th scope="col">Adults</th>
+          <th scope="col">Children</th>
+          <th scope="col">Students</th>
+          <th scope="col">Request Cancelation</th>
+      </tr>
+  </thead>
+  <tbody>
+      {% if config == 1 %}
+          <tr>
+              <th scope="row">{{ up_book.showing.film.title }}</th>
+              <td>{{ up_book.showing.start_time}}</td>
+              <td>{{ up_book.showing.end_time }}</td>
+              <td>{{ up_book.adult_quantity }}</td>
+              <td>{{ up_book.child_quantity }}</td>
+              <td>{{ up_book.student_quantity }}</td>
+              <td>
+                
+            
+            </td>
+          </tr>
+      {% elif config == 2 %}
+        <tr>
+            <th scope="row">{{ past_book.showing.film.title }}</th>
+            <td>{{ past_book.showing.start_time}}</td>
+            <td>{{ past_book.showing.end_time }}</td>
+            <td>{{ past_book.adult_quantity }}</td>
+            <td>{{ past_book.child_quantity }}</td>
+            <td>{{ past_book.student_quantity }}</td>
+            <td>Unavailable</td>
+        </tr>
+      {% else %}
+      <tr>
+        <th scope="row">No Booking Found! Try again</th>
+    </tr>
+      {% endif %}
+
+  </tbody>
+
+</table>
+{% endblock %}

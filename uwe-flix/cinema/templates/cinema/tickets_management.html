@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-4">
+    <h1>Manage Tickets</h1>
+    <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Ticket Name</th>
+        <th>Ticket Price (£)</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for ticket in tickets %}
+        <tr>
+            <td>{{ ticket.ticket_type }}</td>
+            <td>{{ ticket.price }}</td>
+            <td>
+                <a
+                  href="{% url 'update_ticket' pk=ticket.pk %}"
+                  class="btn btn-primary"
+                  >Update</a
+                >
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+{% endblock %}

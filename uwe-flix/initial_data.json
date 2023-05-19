@@ -1,0 +1,88 @@
+[
+  {
+    "model": "cinema.Cinema",
+    "pk": 1,
+    "fields": {
+      "name": "UWEFlix",
+      "location" : "UWE"
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+      "name": "admin"
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+      "name": "account_manager"
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 3,
+    "fields": {
+      "name": "cinema_manager"
+    }
+  },
+  {
+    "model": "authentication.User",
+    "fields": {
+      "username": "admin",
+      "password": "pbkdf2_sha256$390000$HlaKNRkiMvNmva2t4DDGDI$YRgFar+meTQx4OfEY0vIVvgJQaip8hSTUTYVJIOTojI=",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true,
+      "groups": [1]
+    }
+  },
+  {
+    "model": "authentication.User",
+    "fields": {
+      "username": "account_manager",
+      "password": "pbkdf2_sha256$390000$HlaKNRkiMvNmva2t4DDGDI$YRgFar+meTQx4OfEY0vIVvgJQaip8hSTUTYVJIOTojI=",
+      "is_superuser": false,
+      "is_staff": true,
+      "is_active": true,
+      "groups": [2]
+    }
+  },
+  {
+    "model": "authentication.User",
+    "fields": {
+      "username": "cinema_manager",
+      "password": "pbkdf2_sha256$390000$HlaKNRkiMvNmva2t4DDGDI$YRgFar+meTQx4OfEY0vIVvgJQaip8hSTUTYVJIOTojI=",
+      "is_superuser": false,
+      "is_staff": true,
+      "is_active": true,
+      "groups": [3]
+    }
+  },
+  {
+    "model": "cinema.Ticket",
+    "fields": {
+      "ID": 1,
+      "ticket_type": "AdultTicket",
+      "price": 10.0
+    }
+  },
+  {
+    "model": "cinema.Ticket",
+    "fields": {
+      "ID": 2,
+      "ticket_type": "StudentTicket",
+      "price": 7.5
+    }
+  },
+  {
+    "model": "cinema.Ticket",
+    "fields": {
+      "ID": 3,
+      "ticket_type": "ChildTicket",
+      "price": 5.0
+    }
+  }
+]

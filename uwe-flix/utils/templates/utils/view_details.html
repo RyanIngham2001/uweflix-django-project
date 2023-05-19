@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-4">
+  <h1>My Details</h1>
+  <p>Username: {{ user.username }}</p>
+  <p>First Name: {{ user.first_name }}</p>
+  <p>Last Name: {{ user.last_name }}</p>
+  <p>Discount Rate: {{user.account.discount_rate }}</p>
+  <p>Email: {{ user.email }}</p>
+  <p>Groups: {{ user.groups.all.name }}</p>
+</div>
+
+<a
+  class="btn btn-primary"
+  href="{% url 'create_student_discount_request' pk=user.pk %}"
+  >Create Discount Request</a
+>
+
+{% endblock %}

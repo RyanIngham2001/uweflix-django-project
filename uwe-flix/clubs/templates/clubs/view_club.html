@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mt-4">
+  <h1>{{ club.name }}</h1>
+  <ul class="list-group mt-3">
+    <li class="list-group-item">Representative: {{ representative.linked_user.first_name }}{{ representative.linked_user.last_name }}</li>
+    <li class="list-group-item">
+      Address: {{ club.street_number }} {{ club.street }}, {{ club.city }}, {{ club.postcode }}
+    </li>
+    <li class="list-group-item">
+      Telephone Number: {{ club.telephone_number }}
+    </li>
+    <li class="list-group-item">Mobile Number: {{ club.mobile_number }}</li>
+    <li class="list-group-item">Email Address: {{ club.email_address }}</li>
+    <li class="list-group-item">Discount Rate: {{ club.account.discount_rate }}</li>
+  </ul>
+
+  <div class="mt-4">
+    {% comment %} <a href="{% url 'book_club_tickets' club.pk %}" class="btn btn-primary mr-3"
+      >Book Club Tickets</a
+    > {% endcomment %}
+    <a href="#" class="btn btn-primary mr-3"
+      >Book Club Tickets</a
+    {% comment %} <a
+      href="{% url 'view_account' club.account.pk %}"
+      class="btn btn-primary mr-3"
+      >View Account</a
+    > {% endcomment %}
+    <a
+    href="#"
+    class="btn btn-primary mr-3"
+    >View Account</a
+  >
+    <a href="{% url 'top_up_balance' club.pk %}" class="btn btn-primary mr-3"
+      >Add Club Credit</a
+    >
+    <a href="{% url 'update_club' club.pk %}" class="btn btn-secondary mr-3"
+      >Update Club Details</a
+    >
+    <a href="{% url 'delete_club' club.pk %}" class="btn btn-danger mr-3"
+      >Delete Club</a
+    >
+  </div>
+  <div class="mt-4">
+    <a href="{% url 'create_club_discount_request' club.pk %}" class="btn btn-danger mr-3"
+    >Request New Discount Rate</a>
+  </div>
+</div>
+{% endblock %}

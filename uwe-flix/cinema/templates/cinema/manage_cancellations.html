@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mt-4">
+    <h1>Manage Cancellations</h1>
+    <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Showing</th>
+        <th>Booking Cost</th>
+        <th>Approved</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for cancellation in cancellations %}
+        <tr>
+            <td>{{ cancellation.reservation.reservee }}</td>
+            <td>{{ cancellation.reservation.showing }}</td>
+            <td>{{ cancellation.reservation.booking_cost }}</td>
+            <td>{{ cancellation.approved }}</td>
+            <td>
+              {% if cancellation.approved == None %}
+                <a
+                  href="{% url 'approve_cancellation' pk=cancellation.pk %}"
+                  class="btn btn-primary"
+                  >Approve</a
+                >
+                <a
+                  href="{% url 'disapprove_cancellation' pk=cancellation.pk %}"
+                  class="btn btn-danger"
+                  >Disapprove</a
+                >
+                {% else %}
+                None Required
+                {% endif %}
+
+            </td>
+        </tr>
+        
+        {% endfor %}
+    </tbody>
+    </table>
+  
+</div>
+{% endblock %}

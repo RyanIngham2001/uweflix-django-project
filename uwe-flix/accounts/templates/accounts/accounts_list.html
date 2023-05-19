@@ -1,0 +1,180 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-3">
+  <h1>Accounts List</h1>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a
+        class="nav-link active"
+        data-toggle="tab"
+        href="#all_accounts"
+        role="tab"
+        aria-controls="all_accounts"
+        aria-selected="true"
+        >Club Accounts</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        data-toggle="tab"
+        href="#user_accounts"
+        role="tab"
+        aria-controls="user_accounts"
+        aria-selected="false"
+        >User Accounts</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        data-toggle="tab"
+        href="#cinema_account"
+        role="tab"
+        aria-controls="cinema_account"
+        aria-selected="false"
+        >Cinema Account</a
+      >
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div
+      class="tab-pane fade show active"
+      id="all_accounts"
+      role="tabpanel"
+      aria-labelledby="all_accounts-tab"
+    >
+      <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+            <th>Account ID</th>
+            <th>Balance</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for account in club_accounts %}
+          <tr>
+            <td>{{ account.id }}</td>
+            <td>{{ account.balance }}</td>
+            <td class="col-sm-6">
+              <div class="btn-group" role="group">
+              <a
+                href="{% url 'update_account' account.id %}"
+                class="btn btn-primary mr-2"
+                >Update</a
+              >
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle mr-2" type="button" id="myButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  History
+                </button>
+                <div class="dropdown-menu" aria-labelledby="myButton">
+                  <a class="dropdown-item" href="{% url 'debit_history' pk=account.id config=1 %}">Current Month Debit</a>
+                  <a class="dropdown-item" href="{% url 'debit_history' pk=account.id config=2%}">Last Month Debit</a>
+                </div>
+              </div>
+              <a
+                href="{% url 'delete_account' account.id %}"
+                class="btn btn-danger"
+                >Delete</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="user_accounts"
+      role="tabpanel"
+      aria-labelledby="user_accounts-tab"
+    >
+      <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+            <th>Account ID</th>
+            <th>Account Name</th>
+            <th>Balance</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for account in user_accounts %}
+          <tr>
+            <td>{{ account.id }}</td>
+            <td>{{ account.name }}</td>
+            <td>{{ account.balance }}</td>
+            <td class="col-sm-6">
+              <div class="btn-group" role="group">
+              <a
+                href="{% url 'update_account' account.id %}"
+                class="btn btn-primary mr-2"
+                >Update</a
+              >
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle mr-2" type="button" id="myButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  History
+                </button>
+                <div class="dropdown-menu" aria-labelledby="myButton">
+                  <a class="dropdown-item" href="{% url 'debit_history' pk=account.id config=1 %}">Current Month Debit</a>
+                  <a class="dropdown-item" href="{% url 'debit_history' pk=account.id config=2%}">Last Month Debit</a>
+                  <a class="dropdown-item" href="{% url 'credit_history' pk=account.id config=1%}">Current Month Credit</a>
+                  <a class="dropdown-item" href="{% url 'credit_history' pk=account.id config=2%}">Last Month Credit</a>
+                </div>
+              </div>
+              <a
+                href="{% url 'delete_account' account.id %}"
+                class="btn btn-danger"
+                >Delete</a
+              >
+            </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="cinema_account"
+      role="tabpanel"
+      aria-labelledby="cinema_account-tab"
+    >
+      <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+            <th>Account ID</th>
+            <th>Balance</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% for account in cinema_accounts %}
+      <tr>
+        <td>{{ account.id }}</td>
+        <td>{{ account.balance }}</td>
+        <td>
+          <a
+            href="{% url 'update_account' account.id %}"
+            class="btn btn-primary"
+            >Update</a
+          >
+          <a
+            href="{% url 'delete_account' account.id %}"
+            class="btn btn-danger"
+            >Delete</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+</div>
+{% endblock %}

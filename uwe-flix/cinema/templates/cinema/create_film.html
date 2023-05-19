@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+  <h1>Create Film</h1>
+  <form method="post" action="{% url 'create_film' %}" class="form">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+    <div class="form-group">
+      <label for="length">Length (in minutes)</label>
+      <input type="number" class="form-control" id="length" name="length" required>
+    </div>
+    <div class="form-group">
+      <label for="rating">Age Rating</label>
+      <select class="form-control" id="rating" name="rating">
+        <option value="U">U</option>
+        <option value="PG">PG</option>
+        <option value="12">12</option>
+        <option value="15">15</option>
+        <option value="18">18</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input type="text" class="form-control" id="description" name="description" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Film</button>
+    <a href="{% url 'create_showing' %}" class="btn btn-secondary" onClick="javascript:history.go(-1);">Return</a>
+  </form>
+</div>
+{% endblock %}

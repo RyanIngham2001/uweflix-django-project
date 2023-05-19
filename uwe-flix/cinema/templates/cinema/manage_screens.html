@@ -1,0 +1,83 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-4">
+  <h1>Manage Screens</h1>
+  <ul class="nav nav-tabs" role="tablist">
+    {% for cinema in cinemas %}
+    <li class="nav-item">
+      <a
+        class="nav-link{% if forloop.first %} active{% endif %}"
+        data-toggle="tab"
+        href="#cinema_{{ cinema.id }}"
+        role="tab"
+        aria-controls="cinema_{{ cinema.id }}"
+        aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+      >
+        {{ cinema.name }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  <div class="tab-content">
+    {% for cinema in cinemas %}
+    <div
+      class="tab-pane fade{% if forloop.first %} show active{% endif %}"
+      id="cinema_{{ cinema.id }}"
+      role="tabpanel"
+      aria-labelledby="cinema_{{ cinema.id }}-tab"
+    >
+      <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+            <th>Screen Number</th>
+            <th>Seating Capacity</th>
+            <th>Currently Showing</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for screen in screens %}
+          <tr>
+            <td>{{ screen.screen_number }}</td>
+            <td>{{ screen.seating_capacity }}</td>
+            <td>
+              {% if showings %} 
+              
+                {% for showing in showings %} 
+                  {% if showing.screen.id == screen.id %}
+                    {{showing.start_time|date:'F d -'}}
+                    {{showing.film.title }} 
+                    ({{ showing.start_time|date:'g:i A' }} - 
+                    {{showing.end_time|date:'g:i A' }}) 
+                    <br>
+                  {% endif %}
+                {% endfor %} 
+              {% else %} No current showings {% endif %}
+            </td>
+            <td>
+              <a
+                href="{% url 'update_screen' pk=screen.pk %}"
+                class="btn btn-primary"
+                >Update</a
+              >
+              <a
+                href="{% url 'delete_screen' pk=screen.pk %}"
+                class="btn btn-danger"
+                >Delete</a
+              >
+              <a href="{% url 'create_showing' %}" class="btn btn-success"
+                >Create Showing</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endfor %}
+  </div>
+  <a href="{% url 'create_screen' %}" class="btn btn-success mt-2"
+    >Create Screen</a
+  >
+</div>
+{% endblock %}

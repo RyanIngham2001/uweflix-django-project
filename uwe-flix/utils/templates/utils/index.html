@@ -1,0 +1,73 @@
+{% extends 'base.html' %} {% block content %} {% load custom_filters %}
+<div class="container mt-4">
+  <h1>Available Films</h1>
+  <h3>Select a Date</h3>
+  <form method="post" action="{% url 'index' %}">
+    {% csrf_token %}
+    <input
+      type="date"
+      class="form-control"
+      id="date"
+      name="date"
+      value="{{ date }}"
+      required
+    />
+    <button type="submit" class="btn btn-primary mr-2">Search</button>
+  </form>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for film in films %}
+    <div class="col mb-4">
+      <div class="card h-100">
+        {% if film.poster_url %}
+        <img
+          src="{{ film.poster_url }}"
+          class="card-img-top"
+          alt="{{ film.title }} poster"
+        />
+        {% else %}
+        <img
+          src="https://via.placeholder.com/500x750.png?text=No+Poster+Available"
+          class="card-img-top"
+          alt="No poster available"
+        />
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ film.title }} ({{film.rating}})</h5>
+          <p class="card-text">"{{ film.description|slice:":100" }}"...</p>
+          {% if perms >= 2 %}
+          <a href="{% url 'update_film' pk=film.id %}" class="btn btn-primary"
+            >Edit</a
+          >
+          {% endif %}
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for showing in showings_by_film|get_item:film %}
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-9">
+                <a
+                  href="{% url 'make_specific_booking' pk=showing.pk %}"
+                  class="btn btn-primary"
+                  >{{ showing.start_time }}</a
+                >
+              </div>
+              <div class="col-3">
+                <div class="float-right">
+                  <span class="badge badge-info"
+                    >{{ showing.available_seats }} seats available</span
+                  >
+                </div>
+              </div>
+            </div>
+          </li>
+          {% empty %}
+          <li class="list-group-item">No showings available</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

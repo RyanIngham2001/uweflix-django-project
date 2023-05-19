@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+  <h1>Create Screen</h1>
+  <form method="post" action="{% url 'create_screen' %}">
+    {% csrf_token %}
+    {% if form_errors %}
+    <h2>ERRORS</h2>
+    <div class="alert alert-danger" role="alert">
+      {% for field, error in form_errors.items %}
+        <li>{{ field }}: {{ error }}</li>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <div class="form-group">
+      <label for="screen_number">Screen Number</label>
+      <input type="number" class="form-control" id="screen_number" name="screen_number" required>
+    </div>
+    <div class="form-group">
+      <label for="seating_capacity">Seating Capacity (Max 300)</label>
+      <input type="number" class="form-control" id="seating_capacity" name="seating_capacity" required>
+    </div>
+    <div class="form-group">
+      <label for="cinema">Cinema</label>
+      <select class="form-control" id="cinema" name="cinema">
+        {% for cinema in cinemas %}
+          <option value="{{ cinema.id }}">{{ cinema.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Screen</button>
+    
+  </form>
+</div>
+
+{% endblock %}

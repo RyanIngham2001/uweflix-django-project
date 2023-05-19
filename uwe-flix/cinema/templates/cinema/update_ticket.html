@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+  <h1>Update Ticket</h1>
+  <form method="post" action="{% url 'update_ticket' ticket.pk %}">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-group">
+        {{ field.label_tag }}
+        {{ field }}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Update Ticket</button>
+  </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-4">
+  <h1>Create New Account</h1>
+  <form method="POST" action="{% url 'create_account' %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="discount_rate">Discount Rate</label>
+      {{ form.discount_rate }}
+    </div>
+    <button type="submit" class="btn btn-primary">Create Account</button>
+  </form>
+</div>
+{% endblock %}

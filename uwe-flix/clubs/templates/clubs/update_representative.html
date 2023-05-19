@@ -1,0 +1,72 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
+<!-- Use Bootstrap's grid system to structure the layout -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <!-- Add the update form -->
+      <form method="post" class="form-signup">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 font-weight-normal text-center">
+          Update Representative for {{ club.name }}
+        </h1>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            class="form-control"
+            value="{{ representative.email }}"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="first_name">First Name</label>
+          <input
+            type="text"
+            name="first_name"
+            class="form-control"
+            value="{{ representative.first_name }}"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="last_name">Last Name</label>
+          <input
+            type="text"
+            name="last_name"
+            class="form-control"
+            value="{{ representative.last_name }}"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="representative_id"
+            >Representative ID (cannot be edited)</label
+          >
+          <input
+            type="text"
+            name="representative_id"
+            class="form-control"
+            required
+            disabled
+            value="{{ representative.representative_id }}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            class="form-control"
+            required
+          />
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">
+          Update
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

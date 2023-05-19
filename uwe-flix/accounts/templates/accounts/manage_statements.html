@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+  <h1>Manage Statements</h1>
+  {% if statements %}
+    {% for statement in statements %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ statement.date }}</h5>
+          <p class="card-text">Account: {{ statement.account.id }}</p>
+          <a href="{% url 'update_statement' pk=statement.account.pk st_pk=statement.pk %}" class="btn btn-secondary">Update Statement</a>
+          <a href="{% url 'delete_statement' pk=statement.account.pk st_pk=statement.pk %}" class="btn btn-secondary">Delete Statement</a>
+          <p class="card-text">Total Spent: {{ statement.total_spent }}</p>
+          <p class="card-text">Total Paid: {{ statement.total_paid }}</p>
+          <p class="card-text">Outstanding: {{ statement.outstanding }}</p>
+        </div>
+      </div>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

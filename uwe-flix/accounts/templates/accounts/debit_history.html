@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1>Debit History</h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Amount (£)</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for transaction in transactions %}
+          <tr>
+            <td>{{ transaction.transId }}</td>
+            <td>{{ transaction.amount |floatformat:"2" }}</td>
+            <td>{{ transaction.status }}</td>
+            <td>{{ transaction.created }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3">No Payment Intents found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

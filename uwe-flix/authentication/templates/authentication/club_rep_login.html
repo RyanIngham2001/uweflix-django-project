@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <form
+        class="form-signin"
+        method="post"
+        action="{% url 'club_rep_login' %}"
+      >
+        {% csrf_token %}{% if error %}
+        <div class="alert alert-danger" role="alert">
+          Invalid login credentials. Please try again.
+        </div>
+        {% endif %}
+        <div class="form-group">
+          <label for="inputUsername">Representative ID</label>
+          <select class="form-control" id="inputUsername" name="inputUsername">
+            {% for club_rep in club_reps %}
+            <option value="{{ club_rep.representative_id }}">
+              {{ club_rep.representative_id }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="inputPassword"
+            name="inputPassword"
+            required
+          />
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">
+          Sign in
+        </button>
+        <a
+          href="{% url 'create_club' %}"
+          class="btn btn-lg btn-secondary btn-block mt-2"
+          >Sign up</a
+        >
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

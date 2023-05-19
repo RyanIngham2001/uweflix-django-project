@@ -1,0 +1,62 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-4">
+  <h1>View Bookings</h1>
+</div>
+
+
+<table class="table table-striped">
+  <thead>
+      <tr>
+          <th scope="col">Movie Title</th>
+          <th scope="col">Start Time</th>
+          <th scope="col">End Time</th>
+          <th scope="col">Adults</th>
+          <th scope="col">Children</th>
+          <th scope="col">Students</th>
+          <th scope="col">Request Cancelation</th>
+      </tr>
+  </thead>
+  <tbody>
+      {% for book in upcoming_bookings %}
+          <tr>
+              <th scope="row">{{ book.showing.film.title }}</th>
+              <td>{{ book.showing.start_time}}</td>
+              <td>{{ book.showing.end_time }}</td>
+              <td>{{ book.adult_quantity }}</td>
+              <td>{{ book.child_quantity }}</td>
+              <td>{{ book.student_quantity }}</td>
+              {% if book.cancellation_requested == False and book.cancelled == None %}
+                <td>
+                  <a href="{% url 'request_cancelation' pk=book.pk %}" class="btn btn-danger"> 
+                  Cancel 
+                  </a>
+                </td>
+              {% elif book.cancellation_requested == True and book.cancelled == None %}
+                <td> Requested </td>
+              {% elif book.cancellation_requested == True and book.cancelled == True %}
+                <td> Approved </td>
+              {% else %}
+                <td> Denied </td>
+              {% endif %}
+
+            
+            </td>
+          </tr>
+      {% endfor %}
+          {% for book in past_bookings %}
+        <tr>
+            <th scope="row">{{ book.showing.film.title }}</th>
+            <td>{{ book.showing.start_time}}</td>
+            <td>{{ book.showing.end_time }}</td>
+            <td>{{ book.adult_quantity }}</td>
+            <td>{{ book.child_quantity }}</td>
+            <td>{{ book.student_quantity }}</td>
+            <td>Unavailable</td>
+        </tr>
+    {% endfor %}
+
+  </tbody>
+
+</table>
+{% endblock %}

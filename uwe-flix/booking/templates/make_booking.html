@@ -1,0 +1,54 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-4">
+  <h1>Make Booking</h1>
+  <h2>{{ showing }} ({{showing.film.rating}})</h2>
+  <p>{{ showing.film.description }}</p>
+</div>
+
+<form method="post" action="{% url 'make_specific_booking' showing.pk %}" class="form">
+    {% csrf_token %}
+
+  {% if error_message %}
+  <div class="alert alert-danger" role="alert">
+    {{error_message}}
+  </div>
+  {% endif %}
+
+    <input type = "hidden" name = "showing" value = "{{ showing.pk }}" />
+
+    {% if not user.is_rep %}
+      <div class="form-group">
+        <label for="length">Adult Tickets:</label>
+        <input type="number" class="form-control" id="adult_quantity" name="adult_quantity" min="0" required>
+      </div>
+    {% else %}
+      <input type = "hidden" class="form-control" id="adult_quantity" name="adult_quantity" value = "0"/>
+    {% endif %}
+
+    {% if not user.is_rep %}
+      <div class="form-group">
+        <label for="length">Student Tickets:</label>
+        <input type="number" class="form-control" id="student_quantity" name="student_quantity" min="0" required>
+      </div>
+    
+    {% else %}
+    <div class="form-group">
+      <label for="length">Student Tickets:</label>
+      <input type="number" class="form-control" id="student_quantity" name="student_quantity" min="10" required>
+    </div>
+    {% endif %}
+    
+    {% if not user.is_rep %}
+      <div class="form-group">
+        <label for="length">Child Tickets:</label>
+        <input type="number" class="form-control" id="child_quantity" name="child_quantity" min="0" required>
+      </div>
+
+    {% else %}
+      <input type = "hidden" class="form-control" id="child_quantity" name="child_quantity" value = "0"/>
+    {% endif %}
+    
+    <button type="submit" class="btn btn-primary">Make Booking</button>
+  </form>
+{% endblock %}

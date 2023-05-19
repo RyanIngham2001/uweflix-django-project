@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-4">
+  <h1>Manage Showings</h1>
+  <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Start Time</th>
+        <th>Film</th>
+        <th>Screen Number</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for showing in showings %}
+      <tr>
+        <td>{{ showing.start_time }}</td>
+        <td>{{ showing.film.title }}</td>
+        <td>Screen {{ showing.screen.screen_number }}</td>
+        <td>
+          <a
+            href="{% url 'update_showing' pk=showing.pk %}"
+            class="btn btn-primary"
+            >Edit</a
+          >
+          <a
+            href="{% url 'delete_showing' pk=showing.pk %}"
+            class="btn btn-danger"
+            onclick="return confirm('Are you sure you want to delete this showing? \n {{ showing.film.title }} \n {{ showing.start_time }} \n Screen {{ showing.screen.screen_number }}')"
+            >Delete</a
+          >
+        </td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+  <a class="btn btn-primary" href="{% url 'create_showing' %}">Add Showing</a>
+</div>
+{% endblock %}
